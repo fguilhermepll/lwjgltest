@@ -8,25 +8,27 @@ import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
 
 import org.lwjgl.Version;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengles.GLES20;
 
+import com.main.models.RawModel;
+import com.main.models.TexturedModel;
 import com.main.renderEngine.Loader;
-import com.main.renderEngine.RawModel;
 import com.main.renderEngine.Renderer;
+import com.main.shaders.StaticShader;
+import com.main.textures.ModelTexture;
 
 public class GameRun {
 	
 	public void run() {
 		System.out.println("Hello LWJGL " + Version.getVersion() + "!");
-		DisplayManager display = new DisplayManager();
 		
+		DisplayManager display = new DisplayManager();
 		//Needed to create the current context for OpenGL to operate on.
 		display.init();
 		display.loop();
-
+		
 		Loader loader = new Loader();
 		Renderer renderer = new Renderer();
+		StaticShader shader = new StaticShader();
 		
 		float[] vertices = {
 			    -0.5f, 0.5f, 0f,
@@ -40,7 +42,16 @@ public class GameRun {
 				3,1,2
 		};
 		
-		RawModel model = loader.loadToVAO(vertices, indices);
+		float[] textureCoords = {
+				0,0,
+				0,1,
+				1,1,
+				1,0
+		};
+		
+		RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
+		ModelTexture texture = new ModelTexture(loader.loadTexture("image"));
+		TexturedModel texturedModel = new TexturedModel(model, texture);
 		
 		//Main Game Loop
 		while ( !glfwWindowShouldClose(display.getWindow()) ) {
@@ -49,8 +60,9 @@ public class GameRun {
 			
 			//GL11.glPolygonMode(GLES20.GL_FRONT_AND_BACK, GL11.GL_LINE); // WIREFRAME MODE
 			
-			renderer.render(model);
-			
+			shader.start();
+			renderer.render(texturedModel);
+			shader.stop();
 			glfwSwapBuffers(display.getWindow()); // swap the color buffers
 
 			// Poll for window events. The key callback above will only be
@@ -58,6 +70,7 @@ public class GameRun {
 			glfwPollEvents();
 		}
 		
+		shader.cleanUp();
 		display.destroy();
 		loader.cleanUp();
 	}
