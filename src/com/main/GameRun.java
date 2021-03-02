@@ -22,13 +22,16 @@ public class GameRun {
 		System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 		
 		DisplayManager display = new DisplayManager();
+		
 		//Needed to create the current context for OpenGL to operate on.
+		//
 		display.init();
 		display.loop();
 		
 		Loader loader = new Loader();
 		Renderer renderer = new Renderer();
 		StaticShader shader = new StaticShader();
+		
 		
 		float[] vertices = {
 			    -0.5f, 0.5f, 0f,
