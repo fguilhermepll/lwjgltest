@@ -40,7 +40,7 @@ public class DisplayManager {
 	private static final int WIDTH = 800;
 	private static final int HEIGHT = 600;
 	
-	private long window;
+	private static long window;
 	
 	public void init() {
 		// Setup an error callback. The default implementation
@@ -121,12 +121,16 @@ public class DisplayManager {
 		glfwSetErrorCallback(null).free();
 	}
 
-	public long getWindow() {
+	public static long getWindow() {
 		return window;
 	}
 
-	public void setWindow(long window) {
-		this.window = window;
+	public static int getWidth() {
+		return WIDTH;
+	}
+
+	public static int getHeight() {
+		return HEIGHT;
 	}
 
 }

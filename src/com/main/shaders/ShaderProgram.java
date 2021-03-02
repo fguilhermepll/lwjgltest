@@ -5,11 +5,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjglx.BufferUtils;
-import org.lwjglx.util.vector.Matrix4f;
-import org.lwjglx.util.vector.Vector3f;
 
 public abstract class ShaderProgram {
 	
@@ -77,9 +77,8 @@ public abstract class ShaderProgram {
 	}
 	
 	protected void loadMatrix(int location, Matrix4f matrix) {
-		matrix.store(matrixBuffer);
-		matrixBuffer.flip();
-		GL20.glUniformMatrix4fv(location, false, matrixBuffer);
+		matrix.get(matrixBuffer);
+	    GL20.glUniformMatrix4fv(location, false, matrixBuffer);
 	}
 	
 	private static int loadShader(String file, int type){
