@@ -37,11 +37,19 @@ public class GameRun {
 		
 		//RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
 		//ModelTexture texture = new ModelTexture(loader.loadTexture("pexels-photo-129733"));
+		
 		RawModel model = OBJLoader.loadObjModel("tabel", loader);
 		TexturedModel texturedModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("woody")));
 		
+		//RawModel model = OBJLoader.loadObjModel("monkey", loader);
+		//TexturedModel texturedModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
+		
+		ModelTexture texture = texturedModel.getTexture();
+		texture.setShineDamper(10);
+		texture.setReflectivity(100);
+		
 		Entity entity = new Entity(texturedModel, new Vector3f(0,-3,-10),0.2f,0,0,1);
-		Light light = new Light(new Vector3f(-5,5,1), new Vector3f(1,1,1));
+		Light light = new Light(new Vector3f(0,0.3f,1), new Vector3f(1,1,1));
 		
 		Camera camera = new Camera();
 		
