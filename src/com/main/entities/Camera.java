@@ -21,6 +21,8 @@ public class Camera {
 	private float yaw;
 	private float roll;
 	
+	private float speed = 0.1f;
+	
 	public Camera() {}
 
 	public void move() {
@@ -30,15 +32,15 @@ public class Camera {
 				glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
 			
 			if ( key == GLFW_KEY_W && action == GLFW_REPEAT )
-				position.z-=0.02f;
+				position.z-=speed;
 			if ( key == GLFW_KEY_S && action == GLFW_REPEAT )
-				position.z+=0.02f;
+				position.z+=speed;
 
 			if( key == GLFW_KEY_D && action == GLFW_REPEAT ) {
-				position.x+=0.02f;
+				position.x+=speed;
 			}
 			if( key == GLFW_KEY_A && action == GLFW_REPEAT ) {
-				position.x-=0.02f;
+				position.x-=speed;
 			}
 		});
 	}
